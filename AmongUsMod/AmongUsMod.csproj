@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <DebugType>embedded</DebugType>
+    <Version>1.0.0</Version>
+    <Description>Among Us Mod - Always Impostor + AI NPC Bots</Description>
+
+    <!--
+      IMPORTANT: Set this to your Among Us install path on Windows.
+      Steam default: C:\Program Files (x86)\Steam\steamapps\common\Among Us
+    -->
+    <AmongUsDir>C:\Program Files (x86)\Steam\steamapps\common\Among Us</AmongUsDir>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BepInEx.Unity.IL2CPP" Version="6.0.0-be.*" />
+    <PackageReference Include="BepInEx.PluginInfoProps" Version="2.*" />
+    <PackageReference Include="AmongUs.GameLibs.Steam" Version="2026.3.31" />
+  </ItemGroup>
+
+  <!-- Auto-copy DLL to BepInEx plugins folder after build -->
+  <Target Name="CopyToPlugins" AfterTargets="Build" Condition="Exists('$(AmongUsDir)\BepInEx\plugins')">
+    <Copy SourceFiles="$(OutputPath)$(AssemblyName).dll"
+          DestinationFolder="$(AmongUsDir)\BepInEx\plugins" />
+    <Message Text="Copied $(AssemblyName).dll to BepInEx plugins folder" Importance="High" />
+  </Target>
+
+</Project>
