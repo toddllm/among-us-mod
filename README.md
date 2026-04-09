@@ -4,6 +4,7 @@ A BepInEx mod for Among Us (Windows/Steam) that:
 1. **Always Impostor** — forces you to be Impostor every game
 2. **AI NPC Bots** — fills empty player slots with bot players so you can play without enough humans
 3. **3D Crewmates** — replaces the 2D sprites with primitive-based 3D models (body, visor, backpack, legs) that rotate to face movement direction and animate while walking
+4. **Camera Tilt** — switches the orthographic camera to perspective and pitches it down ~35° so you can actually see the 3D depth
 
 ## Requirements
 
@@ -50,6 +51,7 @@ AmongUsMod/
     AlwaysImpostor.cs      — Always-Impostor Harmony patches
     AINpcBots.cs           — AI NPC bot system
     ThreeDCrewmates.cs     — 3D crewmate models replacing 2D sprites
+    CameraTilt.cs          — Perspective camera with pitch angle
     AmongUsMod.csproj      — Project file with BepInEx/Reactor references
   NuGet.config             — Package sources for BepInEx and Reactor
   build.bat                — Build script (Windows)
@@ -79,6 +81,13 @@ AmongUsMod/
 - Hooks `PlayerControl.FixedUpdate` to rotate the rig toward movement direction and bob/swing legs while walking
 - Destroys rigs on `PlayerControl.OnDestroy` and `AmongUsClient.OnGameEnd`
 - v1 uses Unity primitives — no external asset bundles required. v2 will load FBX/GLB models from an AssetBundle
+
+### Camera Tilt
+- Hooks `FollowerCamera.Update` postfix to re-apply camera state every frame
+- Switches `Camera.main` from orthographic to perspective on first frame (FOV 50°)
+- Applies a 35° downward pitch and pulls the camera back along the tilt vector so the player stays framed
+- Tuning constants (`TILT_DEGREES`, `CAMERA_HEIGHT`, `FIELD_OF_VIEW`) live at the top of `CameraTilt.cs`
+- Restores correctly between games via `OnGameEnd` postfix
 
 ## Logs
 Check `Among Us/BepInEx/LogOutput.log` for mod messages:

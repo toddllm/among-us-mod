@@ -24,5 +24,6 @@ public class AmongUsModPlugin : BasePlugin
         Log.LogInfo("  - Always Impostor: ON");
         Log.LogInfo("  - AI NPC Bots: ON");
         Log.LogInfo("  - 3D Crewmates: ON");
+        Log.LogInfo("  - Camera Tilt: ON");
     }
 }
