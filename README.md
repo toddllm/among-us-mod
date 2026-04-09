@@ -1,8 +1,9 @@
-# Among Us Mod — Always Impostor + AI NPC Bots
+# Among Us Mod — Always Impostor + AI NPC Bots + 3D Crewmates
 
 A BepInEx mod for Among Us (Windows/Steam) that:
 1. **Always Impostor** — forces you to be Impostor every game
 2. **AI NPC Bots** — fills empty player slots with bot players so you can play without enough humans
+3. **3D Crewmates** — replaces the 2D sprites with primitive-based 3D models (body, visor, backpack, legs) that rotate to face movement direction and animate while walking
 
 ## Requirements
 
@@ -48,6 +49,7 @@ AmongUsMod/
     AmongUsModPlugin.cs    — Main plugin entry point
     AlwaysImpostor.cs      — Always-Impostor Harmony patches
     AINpcBots.cs           — AI NPC bot system
+    ThreeDCrewmates.cs     — 3D crewmate models replacing 2D sprites
     AmongUsMod.csproj      — Project file with BepInEx/Reactor references
   NuGet.config             — Package sources for BepInEx and Reactor
   build.bat                — Build script (Windows)
@@ -69,6 +71,14 @@ AmongUsMod/
 - Crewmate bots complete tasks periodically
 - Hooks `MeetingHud.Start` to schedule bot votes during meetings (random vote or skip)
 - Bot state resets between games
+
+### 3D Crewmates
+- Hooks `PlayerControl.Start` to build a 3D rig (capsule body, sphere visor, cube backpack, capsule legs) parented to each player
+- Hides the 2D `CosmeticsLayer` sprite renderers so only the 3D model shows
+- Syncs the body material color to `Palette.PlayerColors[ColorId]`
+- Hooks `PlayerControl.FixedUpdate` to rotate the rig toward movement direction and bob/swing legs while walking
+- Destroys rigs on `PlayerControl.OnDestroy` and `AmongUsClient.OnGameEnd`
+- v1 uses Unity primitives — no external asset bundles required. v2 will load FBX/GLB models from an AssetBundle
 
 ## Logs
 Check `Among Us/BepInEx/LogOutput.log` for mod messages:

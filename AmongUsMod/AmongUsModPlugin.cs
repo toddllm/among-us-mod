@@ -23,5 +23,6 @@ public class AmongUsModPlugin : BasePlugin
         Log.LogInfo("Among Us Mod loaded!");
         Log.LogInfo("  - Always Impostor: ON");
         Log.LogInfo("  - AI NPC Bots: ON");
+        Log.LogInfo("  - 3D Crewmates: ON");
     }
 }
